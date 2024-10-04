@@ -2,6 +2,19 @@
 
 A new Flutter project.
 
+## Flutter Version
+
+This project is built using Flutter version **3.24.3**. You can check the version with the following command:
+
+Flutter Environment
+Flutter Channel: stable
+Framework Revision: 2663184aa7 (3 weeks ago)
+Dart Version: 3.5.3
+DevTools Version: 2.37.3
+
+```bash
+flutter --version
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
