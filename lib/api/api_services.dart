@@ -15,7 +15,6 @@ class ApiServices {
   Future<Movie> fetchMovieDetails(int movieId) async {
     final url = Uri.parse(
         '${ApiConstants.baseUrl}${ApiConstants.movieDetails}$movieId?api_key=${ApiConstants.apiKey}');
-    debugPrint('Fetching movie details from URL: $url');
 
     final response = await http.get(url);
     return _handleResponse(response);
@@ -58,7 +57,6 @@ class ApiServices {
   Future<Movie> _handleResponse(http.Response response) async {
     if (response.statusCode == 200) {
       final decodedResponse = json.decode(response.body);
-      debugPrint('Decoded Response: $decodedResponse');
       return Movie.fromMap(decodedResponse);
     } else {
       throw Exception('Failed to load movie details: ${response.statusCode}');
