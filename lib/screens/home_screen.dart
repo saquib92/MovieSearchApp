@@ -87,6 +87,10 @@ class HomeScreen extends StatelessWidget {
       itemCount: movies.length,
       itemBuilder: (context, index, movieIndex) {
         final movie = movies[index];
+        final imageUrl = movie.backdropPath != null
+            ? "${ApiConstants.imageBaseUrl}${movie.backdropPath}"
+            : null; // Handle null backdropPath
+
         return InkWell(
           onTap: () {
             onMovieTap(movie.id ?? 0);
@@ -94,21 +98,31 @@ class HomeScreen extends StatelessWidget {
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-            child: CachedNetworkImage(
-              imageUrl: "${ApiConstants.imageBaseUrl}${movie.backdropPath}",
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.black38,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.redAccent,
-                child:
-                    const Center(child: Icon(Icons.error, color: Colors.white)),
-              ),
-            ),
+            child: imageUrl != null
+                ? CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: Colors.black38,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      color: Colors.redAccent,
+                      child: const Center(
+                          child: Icon(Icons.error, color: Colors.white)),
+                    ),
+                  )
+                : Container(
+                    color: Colors.black38,
+                    child: const Center(
+                      child: Text(
+                        'No Image Available',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
           ),
         );
       },
@@ -129,6 +143,10 @@ class HomeScreen extends StatelessWidget {
         itemCount: movies.length,
         itemBuilder: (context, index) {
           final movie = movies[index];
+          final imageUrl = movie.backdropPath != null
+              ? "${ApiConstants.imageBaseUrl}${movie.backdropPath}"
+              : null;
+
           return InkWell(
             onTap: () {
               onMovieTap(movie.id ?? 0);
@@ -142,19 +160,25 @@ class HomeScreen extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: CachedNetworkImage(
-                  imageUrl: "${ApiConstants.imageBaseUrl}${movie.backdropPath}",
-                  height: 120,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: Colors.black38,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
+                child: imageUrl != null
+                    ? CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        height: 120,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(
+                          color: Colors.black38,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      )
+                    : Container(
+                        color: Colors.black38,
+                        child: const Center(child: Icon(Icons.image)),
+                      ),
               ),
             ),
           );
